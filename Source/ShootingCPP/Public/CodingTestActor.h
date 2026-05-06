@@ -36,7 +36,7 @@ public:
 	int32 number3 = 30;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)// 블루프린트 이벤트그래프에서 읽기전용
-	int32 number4 = 40;
+	int32 number4 = 55;
 	
 	UPROPERTY(EditInstanceOnly)//레벨에 배치된 액터 인스턴스에서만 수행 가능(블루프린트X)
 	FString name = TEXT("홍길동");
@@ -45,5 +45,6 @@ public:
 	bool real = true;
 	
 	//함수 
-	
+	UFUNCTION(BlueprintCallable)//블루프린트에서 사용 가능하도록 하는 매크로
+	int32 AddCustom(int32 a, int32 b);
 };

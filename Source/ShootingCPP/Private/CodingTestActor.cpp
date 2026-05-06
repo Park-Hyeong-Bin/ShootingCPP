@@ -22,6 +22,19 @@ void ACodingTestActor::BeginPlay()
 	
 	UE_LOG(LogTemp, Warning,TEXT("%d"), real);
 	
+	if (number3 > 50)
+	{
+		UE_LOG(LogTemp, Warning,TEXT("number3는 50보다 큽니다"));
+	}
+	else if (number3 == 50)
+	{
+		UE_LOG(LogTemp, Warning,TEXT("number3는 50입니다"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning,TEXT("number3는 50보다 작습니다"));
+	}
+	
 }
 
 // Called every frame
@@ -29,5 +42,10 @@ void ACodingTestActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+int32 ACodingTestActor::AddCustom(int32 a, int32 b)
+{
+	return a + b;
 }
 
