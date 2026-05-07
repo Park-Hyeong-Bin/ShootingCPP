@@ -3,9 +3,12 @@
 
 #include "PlayerPawn.h"
 
+#include "Bullet.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -29,6 +32,9 @@ APlayerPawn::APlayerPawn()
 	// 박스 콜라이더 크기를 50x50x50 설정
 	FVector boxSize = FVector(50.f, 50.f, 50.f);
 	boxComp->SetBoxExtent(boxSize);
+	
+	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("FireComponent"));
+	firePosition->SetupAttachment(boxComp);
 }
 
 // Called when the game starts or when spawned
@@ -74,6 +80,16 @@ void APlayerPawn::OnInputVertical(const struct FInputActionValue& value)
 	v = value.Get<float>();
 }
 
+void APlayerPawn::Fire()
+{
+	//SpawnActor<T> 함수 구성
+	//SpawnActor<생성하려는 액터 클래스>(파일변수, 생성위치, 생성 방향회전값)
+	ABullet* bullet = GetWorld()->SpawnActor<ABullet>(bulletFactory,
+		firePosition->GetComponentLocation(),
+		firePosition->GetComponentRotation());
+	UGameplayStatics::PlaySound2D(GetWorld(),fireSound);
+}
+
 // Called to bind functionality to input
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -82,9 +98,13 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* eic = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	if (eic != nullptr)
 	{
+		//bindAction()함수 구성
+		//bindAction()이름, 입력 이벤트 타입, 연결할 함수가 있는 클래스, 연결할 함수의 주소값
 		eic->BindAction(iaHorizontal, ETriggerEvent::Triggered, this, &APlayerPawn::OnInputHorizontal);
 		eic->BindAction(iaHorizontal, ETriggerEvent::Completed, this, &APlayerPawn::OnInputHorizontal);
 		eic->BindAction(iaVertical, ETriggerEvent::Triggered, this, &APlayerPawn::OnInputVertical);
 		eic->BindAction(iaVertical, ETriggerEvent::Completed, this, &APlayerPawn::OnInputVertical);
+		eic->BindAction(iaFire, ETriggerEvent::Started, this, &APlayerPawn::Fire);
 	}
 }
+
