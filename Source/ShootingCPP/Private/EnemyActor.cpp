@@ -58,6 +58,8 @@ void AEnemyActor::BeginPlay()
 		dir = GetActorForwardVector();
 		
 	}
+	
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyActor::OnEnemyOverlap);
 }
 
 // Called every frame
@@ -67,5 +69,17 @@ void AEnemyActor::Tick(float DeltaTime)
 	
 	FVector newLocation = GetActorLocation() + dir * moveSpeed * DeltaTime;
 	SetActorLocation(newLocation);
+}
+
+void AEnemyActor::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//충돌한 상대 벡터를 AEnemyActor클래스로 변경
+	APlayerPawn* player = Cast<APlayerPawn>(OtherActor);
+	if (player != nullptr)
+	{
+		OtherActor->Destroy();
+	}
+	//적 자신도 제거
+	Destroy();
 }
 

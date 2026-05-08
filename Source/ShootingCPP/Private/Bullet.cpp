@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Bullet.h"
 
+#include "EnemyActor.h"
 #include "Components/BoxComponent.h"
 
 
@@ -33,6 +34,9 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//OnComponentBeginOverlap 델리게이트에 OnOverlap함수를 등록
+	//Overlap 발생하면 OnOverlap() 호출해 라고 엔진에 등록 설정
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ABullet::OnBulletOverlap);
 }
 
 // Called every frame
@@ -47,3 +51,14 @@ void ABullet::Tick(float DeltaTime)
 	SetActorLocation(newLocation);
 }
 
+void ABullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//충돌한 상대 벡터를 AEnemyActor클래스로 변경
+	AEnemyActor* enemy = Cast<AEnemyActor>(OtherActor);
+	if (enemy != nullptr)
+	{
+		OtherActor->Destroy();
+	}
+	//총알 자신도 제거
+	Destroy();
+}
