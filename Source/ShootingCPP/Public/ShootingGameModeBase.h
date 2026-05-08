@@ -14,14 +14,20 @@ class SHOOTINGCPP_API AShootingGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	public:
+public:
 	void AddScore(int32 point);
 	
-	//BP_MainWidge파일을 담는 변수
+	// BP_MainWidget 파일을 담는 변수
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UMainWidget> mainWidget;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UMenuWidget> menuWidget;
 
-	protected:
+	void ShowMenu();
+	
+protected:
+	// 위젯은 게임 시작 할때 생성되야 하므로, BeginPlay()를 오버라이드 하고자 함.
 	virtual void BeginPlay() override;
 	
 private:
@@ -29,9 +35,8 @@ private:
 	
 	// 에디터 뷰포트에 로드된 위젯 저장용 변수
 	class UMainWidget* mainUI;
+	class UMenuWidget* menuUI;
 	
 	// 점수 UI 갱신 함수
 	void PrintScore();
-	
-	
 };

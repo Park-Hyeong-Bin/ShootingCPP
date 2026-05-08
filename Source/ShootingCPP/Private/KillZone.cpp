@@ -12,7 +12,7 @@ AKillZone::AKillZone()
 	//Tick() 이 필요없는 액터에는 항상 false로 설정
 	PrimaryActorTick.bCanEverTick = false;
 	
-	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Kill Zone Box"));
 	SetRootComponent(boxComp);
 	
 	//박스 컴포넌트 모빌리티 고정으로 설정
@@ -21,6 +21,7 @@ AKillZone::AKillZone()
 	//박스 콜라이더 크기
 	FVector boxSize = FVector(50.0f, 2000.0f, 50.0f);
 	boxComp->SetBoxExtent(boxSize);
+	boxComp->SetCollisionProfileName(TEXT("KillZone"));
 }
 
 // Called when the game starts or when spawned
