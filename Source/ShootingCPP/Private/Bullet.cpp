@@ -24,6 +24,8 @@ ABullet::ABullet()
 	// 스태틱 메시 컴포넌트 생성&설정
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("My StaticMesh Component"));
 	meshComp->SetupAttachment(boxComp); // 박스 콜라이더 컴포넌트의 자식 컴포넌트로 설정
+	
+	boxComp->SetCollisionProfileName(TEXT("Bullet"));
 }
 
 // Called when the game starts or when spawned

@@ -35,6 +35,17 @@ APlayerPawn::APlayerPawn()
 	
 	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("FireComponent"));
 	firePosition->SetupAttachment(boxComp);
+	/*
+	// 충돌설정은 채널/응답 조합이 복잡해질 가능성이 높기 때문에, 언리얼 에디터의 프리셋으로 관리하는것이 유리함(관례적)
+	//충돌 채널 설정을 C++에서 직접 하는 경우
+	boxComp->SetCollisionProfileName(TEXT("Pawn"));
+	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	boxComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+	boxComp->SetCollisionResponseToChannel(ECC_GameTraceChannel1)//Enemy채널에 ignore
+	*/
+	//아래처럼 에디터에 생성할 프리셋의 일믕르 컴포넌트에 세팅해준다
+	boxComp->SetCollisionProfileName(TEXT("Player"));
+	
 }
 
 // Called when the game starts or when spawned

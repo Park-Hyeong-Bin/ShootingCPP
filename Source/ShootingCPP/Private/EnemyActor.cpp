@@ -27,6 +27,8 @@ AEnemyActor::AEnemyActor()
 	// 박스 콜라이더 크기를 50x50x50 설정
 	FVector boxSize = FVector(50.f, 50.f, 50.f);
 	boxComp->SetBoxExtent(boxSize);
+	
+	boxComp->SetCollisionProfileName(TEXT("Enemy"));
 }
 
 // Called when the game starts or when spawned
