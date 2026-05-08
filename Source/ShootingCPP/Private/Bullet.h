@@ -34,6 +34,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 800.0f;
 	
+	//폭발 파티클 이펙트
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* explosionFX;
+	
+	
 	//충돌 이벤트 함수 - OnComponentBeginOverlap 델리게이트에 등록할 함수
 	UFUNCTION()
 	void OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
