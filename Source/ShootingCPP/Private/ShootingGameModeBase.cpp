@@ -3,3 +3,8 @@
 
 #include "ShootingGameModeBase.h"
 
+//
+void AShootingGameModeBase::AddScore(int32 point)
+{
+	currentScore += point;
+}
